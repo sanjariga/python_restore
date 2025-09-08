@@ -15,14 +15,42 @@ __author__ = 'Kostin Aleksandr'
 class weatherApiReacher(object):
 
     def __init__(self, region=None, measurement_system=None, city=None):
-        pass_variables = vl.ArgumentParser(prog=__file__, formatter_class=vl.RawDescriptionHelpFormatter, 
-                                           description="Please input your location and what measurement \n" \
-                                           "system should be used in output", epilog='''
-                                            Example of usage:
-                                                python3.13 %{prog}% -r region -s measurement_system -c city
-                                            ''')
-        pass_variables.add_argument('r', '--region', type=str, help='Region from where you should pick up API',
-                                    required=True)
-        pass_variables.add_argument('s', '--measurement_system', choices=['imperial', 'metric'], 
-                                    help='2 options: Imperial (Farenheit) and Metric (Celsius)', default='metric')
-        pass_variables.add_argument('-c', '--city', type=str, help='Define City, which temp you need', required=True)
+
+        if region:
+            self.region = region
+            self.measurement_system = measurement_system
+            self.city = city
+
+        else:
+            pass_variables = vl.ArgumentParser(prog=__file__, formatter_class=vl.RawDescriptionHelpFormatter, 
+                                            description="Please input your location and what measurement \n" \
+                                            "system should be used in output", epilog='''
+                                                Example of usage:
+                                                    python3.13 %{prog}% -r region -s measurement_system -c city
+                                                ''')
+            pass_variables.add_argument('r', '--region', choices=['Europe', 'North America', 'South America', 'Asia', 'Pacific', 'Russia'],
+                                         help='Region from where you should pick up API', default='Europe')
+            pass_variables.add_argument('s', '--measurement_system', choices=['imperial', 'metric'], 
+                                        help='2 options: Imperial (Farenheit) and Metric (Celsius)', default='metric')
+            pass_variables.add_argument('-c', '--city', type=str, help='Define City and country, which temp you need', required=True)
+
+            self.arguments = pass_variables.parse_args()
+
+            self.region = self.arguments.region
+            self.measurement = self.arguments.measurement_system
+            self.city = self.arguments.city
+
+    def define_api_endpoint(self):
+        pass
+
+    def define_locations_coordinates(self):
+        pass
+
+    def define_measurement_units(self):
+        pass
+
+    def execute_api_call(self):
+        pass
+
+if __name__ == '__main__':
+    pass
